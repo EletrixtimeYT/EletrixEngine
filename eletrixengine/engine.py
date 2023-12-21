@@ -1,12 +1,13 @@
-
 ENGINE_VERSION = "0.0.1"
 
+if __name__ == "__main__":
+   raise RuntimeError("Please run the main.py file !")
 
 try:
   from eletrixengine.libs import console
 except Exception as e:
   print(f"CRITICAL ERROR : {e}")
-  exit()
+  exit(-1)
 try:
   import sys
   import os
@@ -19,7 +20,7 @@ try:
 
 except:
   console.print_error("Failed to load PyGame and PyOpenGL exiting...")
-  exit()
+  exit(-1)
 
 # Load assets
   
@@ -28,34 +29,37 @@ from eletrixengine.assets.cube import conf as cube_demo_conf
 print(f"Hello from EletrixEngine Community {ENGINE_VERSION}")
 pygame.display.set_caption(f"EletrixEngine {ENGINE_VERSION} - untitled Window")
 
-class logs():
+class Logs(object):
 
-  def error(text):
+  def error(self, text):
     console.print_error(text)
 
-  def warn(text):
+  def warn(self, text):
     console.print_warning(text)
 
-  def info(text):
+  def info(self, text):
     console.print_info(text)
 
-class demo():
-  def Cube():
+class Demo(object):
+  def cube(self):
     glBegin(GL_LINES)
     for edge in cube_demo_conf.edges:
         for vertex in edge:
             glVertex3fv(cube_demo_conf.vertices[vertex])
     glEnd()
     
-class window_property():
-  def set_title(title):
+class WindowProperty():
+  def set_title(self, title):
     try:
       pygame.display.set_caption(title)
       return("true")
     except Exception as e:
       console.print_error(f"Error occured in set_title function : {e}")
       return("false")
-  def init(width, height):
+    
+
+  def init(self, width, height):
+      # FewerElk note : you should not name a fct like this. It is confusing.
       try:
           pygame.init()
           pygame.display.set_mode((width, height), DOUBLEBUF | OPENGL)
@@ -69,7 +73,7 @@ class window_property():
                   if event.type == pygame.QUIT:
                       running = False  # Set the running flag to False to exit the loop
 
-              demo.Cube()
+              Demo().cube()
               glRotatef(1, 3, 1, 1)
               glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
@@ -82,7 +86,7 @@ class window_property():
           console.print_error(f"Failed to init pygame: {e}")
           return "false"
 
-  def set_icon(path):
+  def set_icon(self, path):
     try:
       Icon = pygame.image.load(path)
       pygame.display.set_icon(Icon)
