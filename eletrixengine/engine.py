@@ -47,6 +47,39 @@ class Demo(object):
         for vertex in edge:
             glVertex3fv(cube_demo_conf.vertices[vertex])
     glEnd()
+
+
+class Point(object):
+    def __init__(self, x, y, z):
+        self.x = x
+        self.y = y
+        self.z = z
+
+        self.coord = (x, y, z)
+      
+    def translation(self, vector):
+        self.x += vector.self.coord_x
+        self.y += vector.self.coord_y
+
+class Vector(object):
+    def __init__(self, origine_pt, extrem_pt):
+        self.origine = origine_pt
+        self.extremity = extrem_pt
+
+        self.coord_x = self.extremity.x - self.origine.x
+        self.coord_y = self.extremity.y - self.origine.y
+
+
+class Object3D(object):
+   def __init__(self, pts_list:list, texture=None):
+        self.list_pts = pts_list
+        self.texture = texture
+
+        
+
+
+
+
     
 class WindowProperty():
   def set_title(self, title):
