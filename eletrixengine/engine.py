@@ -60,6 +60,7 @@ class Point(object):
     def translation(self, vector):
         self.x += vector.self.coord_x
         self.y += vector.self.coord_y
+        self.z += vector.self.coord_z
 
 class Vector(object):
     def __init__(self, origine_pt, extrem_pt):
@@ -68,6 +69,29 @@ class Vector(object):
 
         self.coord_x = self.extremity.x - self.origine.x
         self.coord_y = self.extremity.y - self.origine.y
+        self.coord_z = self.extremity.z - self.origine.z
+        
+    def multiply(self, factor:float):
+        ...
+        return None
+        
+    def addition(self, vector):
+        #get new vec coord
+        x2 = self.coord_x + vector.coord_x
+        y2 = self.coord_y + vector.coord_y
+        z2 = self.coord_z + vector.coord_z
+        
+        #get new ext pt coord
+        ptx = self.origine.x + x2
+        pty = self.origine.y + y2
+        ptz = self.origine.z + z2
+        
+        #create the pt for the ext
+        extr = Point(ptx, pty, ptz)
+        
+        #the final vector
+        sum = Vector(self.origine, extr)
+        return sum
 
 
 class Object3D(object):
