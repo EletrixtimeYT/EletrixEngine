@@ -58,9 +58,11 @@ class Point(object):
         self.coord = (x, y, z)
       
     def translation(self, vector):
-        self.x += vector.self.coord_x
-        self.y += vector.self.coord_y
-        self.z += vector.self.coord_z
+        x = self.x + vector.self.coord_x
+        y = self.y + vector.self.coord_y
+        z = self.z + vector.self.coord_z
+
+        return Point(x, y, z)
 
 class Vector(object):
     def __init__(self, origine_pt, extrem_pt):
@@ -72,8 +74,15 @@ class Vector(object):
         self.coord_z = self.extremity.z - self.origine.z
         
     def multiply(self, factor:float):
-        ...
-        return None
+        """Multiply this vector. Return a new vector"""
+        ncx = self.coord_x * factor
+        ncy = self.coord_y * factor
+        ncz = self.coord_z * factor
+
+        nx = self.origine.x + ncx
+        ny = self.origine.y + ncz
+        nz = self.origine.z + ncx
+        return Vector(Point(nx, ny, nz))
         
     def addition(self, vector):
         #get new vec coord
@@ -92,18 +101,42 @@ class Vector(object):
         #the final vector
         sum = Vector(self.origine, extr)
         return sum
+    
+class Face(object):
+   def __init__(self, list_pts, texture=None):
+      texture = texture
+
+      self.list_pts = list_pts
 
 
 class Object3D(object):
-   def __init__(self, pts_list:list, texture=None):
+    def __init__(self, pts_list:list, texture=None):
+        raise DeprecationWarning("Don't use now. Maybe later")
         self.list_pts = pts_list
         self.texture = texture
+      
+    def build(self):
+       ...
 
-        
+class Cube(object):
+  def __init__(self, size:float, origine:Point, texture=None):
+      self.origine = origine
+      self.texture = texture
+      self.size = size
 
+      self.list_pts = [origine]
+      
+  def build(self):
+     pt1 = Point(self.origine.x + self.size, self.origine.y, self.origine.z)
+     pt2 = Point(self.origine.x, self.origine.y + self.size, self.origine.z)
+     pt3= Point(self.origine.x, self.origine.y, self.origine.z + self.size)
 
+     pt4 = Point(self.origine.x + self.size, self.origine.y, self.origine.z + self.size)
+     pt5 = Point(self.origine.x + self.size, self.origine.y + self.size, self.origine.z + self.size)
+     pt6 = Point(self.origine.x + self.size, self.origine.y + self.size, self.origine.z)
+     pt7 = Point(self.origine.x, self.origine.y + self.size, self.origine.z + self.size)
 
-
+     self.list_pts.append(pt1, pt2, pt3, pt4, pt5, pt6, pt7)
     
 class WindowProperty():
   def set_title(self, title):
